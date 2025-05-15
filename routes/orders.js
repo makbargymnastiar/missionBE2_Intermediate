@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all orders
+// GET 
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM orders");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new orders
+// POST 
 router.post("/", async (req, res) => {
   const { users_id, kelas_id, status } = req.body;
   try {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update orders
+// PUT 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { users_id, kelas_id, status } = req.body;
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE orders
+// DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {

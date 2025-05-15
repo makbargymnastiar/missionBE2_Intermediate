@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const app = express();
 const port = 3000;
 
-// Middleware untuk parsing JSON
+// Middleware
 app.use(express.json());
 
 // Konfigurasi koneksi ke database PostgreSQL
@@ -15,10 +15,9 @@ const pool = new Pool({
   port: 5432,
 });
 
-// Supaya pool bisa diakses di semua file routes
 app.locals.pool = pool;
 
-// ===== ROUTES =====
+// ROUTES
 app.use("/api/users", require("./routes/users"));
 app.use("/api/tutor", require("./routes/tutor"));
 app.use("/api/category_class", require("./routes/category_class"));

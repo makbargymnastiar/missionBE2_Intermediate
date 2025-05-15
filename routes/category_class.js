@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all category_class
+//GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM category_class");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new category_class
+//POST
 router.post("/", async (req, res) => {
   const { nama, deskripsi } = req.body;
   try {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update category_class
+//PUT
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { nama, deskripsi } = req.body;
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE category_class
+//DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all
+// GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM users");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET by id
+// GET
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;

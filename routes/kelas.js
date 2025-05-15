@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all kelas
+// GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM kelas");
@@ -13,15 +13,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new kelas
+// POST
 router.post("/", async (req, res) => {
   const { nama, deskripsi, kategori_id, tutor_id } = req.body;
 
-  // Debug log to check the incoming request body
   console.log("Request Body: ", req.body);
 
   try {
-    // Validasi apakah kategori_id ada di tabel category_class
     const categoryCheck = await pool.query(
       "SELECT * FROM category_class WHERE id = $1",
       [kategori_id]
@@ -32,7 +30,6 @@ router.post("/", async (req, res) => {
         .send("Invalid kategori_id: Kategori tidak ditemukan");
     }
 
-    // Validasi apakah tutor_id ada di tabel tutor
     const tutorCheck = await pool.query("SELECT * FROM tutor WHERE id = $1", [
       tutor_id,
     ]);
@@ -40,13 +37,11 @@ router.post("/", async (req, res) => {
       return res.status(400).send("Invalid tutor_id: Tutor tidak ditemukan");
     }
 
-    // Jika validasi berhasil, masukkan data ke tabel kelas
     const result = await pool.query(
       "INSERT INTO kelas (nama, deskripsi, kategori_id, tutor_id) VALUES ($1, $2, $3, $4) RETURNING *",
       [nama, deskripsi, kategori_id, tutor_id]
     );
 
-    // Menyampaikan hasil yang baru dimasukkan
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error("Error inserting data: ", err);
@@ -54,13 +49,12 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update kelas
+// PUT
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { nama, deskripsi, kategori_id, tutor_id } = req.body;
 
   try {
-    // Validasi apakah kategori_id ada di tabel category_class
     const categoryCheck = await pool.query(
       "SELECT * FROM category_class WHERE id = $1",
       [kategori_id]
@@ -71,7 +65,6 @@ router.put("/:id", async (req, res) => {
         .send("Invalid kategori_id: Kategori tidak ditemukan");
     }
 
-    // Validasi apakah tutor_id ada di tabel tutor
     const tutorCheck = await pool.query("SELECT * FROM tutor WHERE id = $1", [
       tutor_id,
     ]);
@@ -79,7 +72,7 @@ router.put("/:id", async (req, res) => {
       return res.status(400).send("Invalid tutor_id: Tutor tidak ditemukan");
     }
 
-    // Update kelas
+    //Update
     const result = await pool.query(
       "UPDATE kelas SET nama = $1, deskripsi = $2, kategori_id = $3, tutor_id = $4 WHERE id = $5 RETURNING *",
       [nama, deskripsi, kategori_id, tutor_id, id]
@@ -96,7 +89,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE kelas
+//DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 

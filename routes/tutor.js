@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all tutors
+// GET 
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM tutor");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new tutor
+// POST 
 router.post("/", async (req, res) => {
   const { nama, bio, keahlian } = req.body;
   console.log("body", req.body);
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update tutor
+// PUT 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { nama, bio, keahlian } = req.body;
@@ -45,7 +45,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE tutor
+// DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {

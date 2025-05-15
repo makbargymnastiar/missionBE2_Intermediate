@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all payments
+// GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM payment");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new payment
+// POST
 router.post("/", async (req, res) => {
   const { orders_id, metode, jumlah } = req.body;
   try {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update payment
+// PUT
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { orders_id, metode, jumlah } = req.body;
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE payment
+// DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {

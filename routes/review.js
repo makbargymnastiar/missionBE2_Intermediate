@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all reviews
+// GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM review");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new review
+// POST
 router.post("/", async (req, res) => {
   const { users_id, kelas_id, rating, komentar } = req.body;
   try {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update review
+// PUT
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { users_id, kelas_id, rating, komentar } = req.body;
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE review
+// DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {

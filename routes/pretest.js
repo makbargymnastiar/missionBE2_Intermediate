@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET all pretests
+// GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM pretest");
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new pretest
+// POST
 router.post("/", async (req, res) => {
   const { kelas_id, soal, jawaban_benar } = req.body;
   try {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT update pretest
+// PUT
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { kelas_id, soal, jawaban_benar } = req.body;
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE pretest
+// DELETE
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
