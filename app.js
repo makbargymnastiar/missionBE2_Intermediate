@@ -30,6 +30,10 @@ app.use("/api/pretest", require("./routes/pretest"));
 app.use("/api/material", require("./routes/material"));
 app.use("/api/modul_class", require("./routes/modul_class"));
 
+// auth
+app.use("/api/auth/register", require("./routes/auth/authRegister"));
+app.use("/api/auth/login", require("./routes/auth/authLogin"));
+
 // Route tes koneksi
 app.get("/", async (req, res) => {
   try {
