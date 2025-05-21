@@ -2,8 +2,9 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const router = express.Router();
+require("dotenv").config();
 
-const JWT_SECRET = "rahasia_token_kamu";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/", async (req, res) => {
   const pool = req.app.locals.pool;
