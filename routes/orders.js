@@ -2,7 +2,22 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// GET 
+const verifyToken = require("../middleware/verifyToken");
+
+router.use(verifyToken);
+router.get("/", async (req, res) => {
+  const pool = req.app.locals.pool;
+
+  try {
+    const result = await pool.query("SELECT * FROM orders");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Terjadi kesalahan" });
+  }
+});
+
+// GET
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM orders");
@@ -13,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST 
+// POST
 router.post("/", async (req, res) => {
   const { users_id, kelas_id, status } = req.body;
   try {
@@ -28,7 +43,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT 
+// PUT
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { users_id, kelas_id, status } = req.body;

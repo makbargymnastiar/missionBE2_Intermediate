@@ -1,24 +1,56 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const express = require("express");
+const verifyToken = require("./middleware/verifyToken");
+const { Pool } = require("pg");
+const app = express();
+const port = 3000;
 
-const JWT_SECRET = process.env.JWT_SECRET;
+// Middleware
+app.use(express.json());
 
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+// Konfigurasi koneksi ke database PostgreSQL
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "missionBE2_Intermediate",
+  password: "makbargymnastiar",
+  port: 5432,
+});
 
-  if (!token) {
-    return res.status(401).json({ message: "Token tidak ditemukan" });
+app.locals.pool = pool;
+
+// ROUTES
+app.use("/api/users", require("./routes/users"));
+app.use("/api/tutor", require("./routes/tutor"));
+app.use("/api/category_class", require("./routes/category_class"));
+app.use("/api/kelas", require("./routes/kelas"));
+app.use("/api/orders", require("./routes/orders"));
+app.use("/api/payment", require("./routes/payment"));
+app.use("/api/my_class_list", require("./routes/my_class_list"));
+app.use("/api/review", require("./routes/review"));
+app.use("/api/pretest", require("./routes/pretest"));
+app.use("/api/material", require("./routes/material"));
+app.use("/api/modul_class", require("./routes/modul_class"));
+
+// auth
+app.use("/api/auth/register", require("./routes/auth/authRegister"));
+app.use("/api/auth/login", require("./routes/auth/authLogin"));
+
+// Route tes koneksi
+app.get("/", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.send(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Database error");
   }
+});
 
-  jwt.verify(token, JWT_SECRET, (err, users) => {
-    if (err) {
-      return res.status(403).json({ message: "Token tidak valid" });
-    }
+// Jalankan server
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
+});
 
-    req.users = users;
-    next();
-  });
-};
-
-module.exports = verifyToken;
+app.get("/api/cek-token", verifyToken, (req, res) => {
+  res.json({ message: "Token valid", users: req.users });
+});
